@@ -1,0 +1,64 @@
+AI Startup Analyst - Project Documentation
+
+Version: 1.0
+Date: October 11, 2025
+
+1. PROJECT OVERVIEW
+
+The AI Startup Analyst is a sophisticated tool designed to automate and enhance the initial screening process of early-stage ventures for investors. By leveraging a powerful language model, the system ingests unstructured data from pitch decks and enriches it with structured, real-world data from the Crunchbase API. It performs a comprehensive, multi-faceted analysis and synthesizes its findings into a standardized investment memo. The primary objective is to increase the efficiency, consistency, and depth of startup evaluation, enabling investors to make more informed decisions at scale.
+
+2. CORE ARCHITECTURE
+
+The system is built on a Retrieval-Augmented Generation (RAG) architecture. This model ensures that the AI's analysis is grounded in the specific data provided for each startup, rather than relying solely on its general pre-trained knowledge.
+
+The workflow is as follows:
+
+1. Data Ingestion & Enrichment: The application receives a startup's pitch deck (PDF) and a company name. It then calls the Crunchbase API to fetch a structured company profile, which serves as an external data enrichment source.
+
+2. Text Extraction: All text is extracted from the PDF. The system includes an Optical Character Recognition (OCR) module to process image-based slides, ensuring comprehensive data capture.
+
+3. Vectorization: The combined text from the pitch deck and the Crunchbase API is segmented into smaller, coherent chunks. Each chunk is then converted into a numerical vector embedding and stored in a ChromaDB vector database. This creates a temporary, searchable knowledge base tailored to the startup under review.
+
+4. Analysis & Generation: A series of expert-designed prompts guide the Gemini 1.5 Flash model to analyze the startup. For each section of the investment memo (e.g., Team, Market), the model queries the vector database to retrieve the most relevant context before generating its analysis.
+
+5. Output: The final, structured investment memo is rendered in a user-friendly web interface.
+
+3. KEY FEATURES
+
+• Comprehensive PDF Processing: Utilizes both direct text extraction and OCR to handle various pitch deck formats.
+• External Data Enrichment: Integrates with the Crunchbase API for real-time, structured company data.
+• Multi-Faceted Analysis: Evaluates startups across six critical investment criteria: Team, Problem & Solution, Market Opportunity, Product & Technology, Traction & Go-to-Market, and Key Risks.
+• Synthesized Recommendation: Generates a concise executive summary and a quantitative confidence score with justification.
+• Interactive Web Interface: A clean and intuitive user interface built with Streamlit for easy operation.
+
+4. TECHNICAL SPECIFICATIONS
+
+• Backend Language: Python 3.9+
+• AI Model: Google Gemini 1.5 Flash
+• Web Framework: Streamlit
+• Vector Database: ChromaDB (local, persistent storage)
+• Key Libraries: LangChain, PyPDF, pdf2image, Pytesseract, Requests
+• External APIs: Google AI API, Crunchbase API (via RapidAPI)
+
+5. SETUP AND INSTALLATION GUIDE
+
+Prerequisites:
+• Python 3.9 or higher.
+• The Tesseract OCR Engine must be installed on the system.
+• Valid API keys for the Google AI API and the Crunchbase API on RapidAPI.
+
+Installation Steps:
+1. Clone the project repository to your local machine.
+2. Navigate to the project directory and create a Python virtual environment.
+3. Activate the virtual environment.
+4. Install the required dependencies using the requirements.txt file (pip install -r requirements.txt).
+5. Create a .env file in the root directory and populate it with your API keys (GOOGLE_API_KEY and RAPIDAPI_KEY).
+
+6. USAGE INSTRUCTIONS
+
+1. Launch the application by running streamlit run app.py from the project's root directory in your terminal.
+2. The application will open in your default web browser.
+3. Use the file uploader to select the pitch deck PDF you wish to analyze.
+4. Enter the official name of the startup in the company name text field.
+5. Click the "Analyze Startup" button to initiate the process.
+6. The application will display its progress through the analysis stages and render the final investment memo upon completion.
